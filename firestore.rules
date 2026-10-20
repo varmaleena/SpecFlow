@@ -1,0 +1,8 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // All database access uses authenticated server routes and Firebase Admin.
+    // The Admin SDK bypasses these rules; routes enforce project ownership.
+    match /{document=**} { allow read, write: if false; }
+  }
+}
