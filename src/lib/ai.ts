@@ -68,7 +68,7 @@ export async function orchestrate(options: AiOptions): Promise<AiResult> {
   if (!key) return options.currentState ? fallback('edit_unapplied') : { state: local, engine: 'Smart Local NLP', reason: 'no_key', aiRequests: 0 };
   let budget: AiBudget = { allowed: true };
   if (!personalKey && options.reserveBudget) {
-    try { budget = await options.reserveBudget(); } catch { return fallback('budget_unavailable', { aiRequests: 0 }); }
+    try { budget = await options.reserveBudget(); } catch (error) { const code = typeof error === 'object' && error !== null && 'code' in error ? String(error.code) : 'unknown'; console.error('SpecFlow Firebase usage storage failed', { code: /^[a-zA-Z0-9_/-]{1,60}$/.test(code) ? code : 'unknown' }); return fallback('budget_unavailable', { aiRequests: 0 }); }
     if (!budget.allowed) return fallback(budget.reason || 'daily_limit', { aiRequests: 0, remaining: budget.remaining });
   }
   try {
