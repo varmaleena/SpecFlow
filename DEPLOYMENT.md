@@ -31,6 +31,26 @@ The finite Firebase storage adapter translates only the quota, connection and de
 - Save a project, reopen it on another device and verify a different account cannot read it.
 - Generate a plan with a configured AI provider and confirm its engine label. Current provider errors must remain visible as local fallback.
 - Connect Wispr and read a non-confidential meeting. Its OAuth metadata uses APP_URL, so the deployment must be publicly reachable.
-- Configure an incoming webhook through Settings and explicitly confirm a test delivery to an authorized Slack channel. A Slack access token is not a webhook URL; token-based Slack posting is not implemented.
+- Connect GitHub and Slack from Connections, select an authorized test repository/channel, and explicitly confirm a test action. Verify its actual issue/message link and duplicate protection.
 
 No secrets or data from the Cloudflare preview are automatically transferred. Firebase live operations cannot be verified until its server credentials and web app configuration are set.
+
+## Account connections (one-time application setup)
+
+Register a GitHub OAuth app and a Slack app owned by you. Visitors authorize their own accounts; they do not paste tokens or webhook URLs into the planning flow.
+
+Set server-only GITHUB_CLIENT_ID, GITHUB_CLIENT_SECRET, SLACK_CLIENT_ID and SLACK_CLIENT_SECRET in Vercel. Set CONNECTOR_TOKEN_ENCRYPTION_KEY to a stable 32-byte base64url secret (or reuse the existing FLOW_TOKEN_ENCRYPTION_KEY). Never use NEXT_PUBLIC_ for these secrets.
+
+Callbacks:
+- https://YOUR_DOMAIN/api/connections/github/callback
+- https://YOUR_DOMAIN/api/connections/slack/callback
+
+GitHub OAuth requests repo and read:user; the provider consent screen shows that scope. An OAuth app's repo scope is broad; a fine-grained GitHub App installation is a future improvement. SpecFlow's UI restricts publishing to the selected writable repository. If expiring tokens are enabled, this version requires reconnection after expiry; automatic refresh is not implemented.
+
+Slack bot scopes are channels:read, groups:read and chat:write. Install the app and invite it to the intended test channel. Only channels the bot has joined are offered, from the initial accessible channel page. Token rotation currently requires reconnection when the token expires.
+
+Connect in /connections, choose a default repository/channel, then review and confirm actions in /workspace. GitHub assignees come from the selected repository; unmatched draft names are left unassigned until explicitly mapped. Up to ten issues are created per confirmation; every issue has a durable operation receipt. Partial/uncertain results remain visible and are not automatically replayed. For multiple projects, check the current default destination before each delivery.
+
+OAuth state is single-use, time-limited and bound to a browser cookie and Firebase identity. Access tokens are encrypted at rest and never returned to the browser. Disconnect removes SpecFlow's stored credential; revoke the provider authorization from GitHub/Slack to remove the app's remote grant as well.
+
+The public homepage, /login, /projects, /connections and /workspace are separate routes. Wispr authorization returns to /workspace. OAuth setup and a live authenticated test remain necessary before claiming connected delivery works in production.

@@ -21,12 +21,13 @@ The old Sites/Cloudflare preview remains in a separate ignored hosted/ checkout 
 - Optional Gemini 3.1 Flash-Lite or Groq generation, validated structured output, shared quota limits and visible fallback. Supported local edits use zero AI calls; unsupported edits preserve the existing plan during provider failures.
 - Versioned edits, source evidence, change receipts, review gates and explicit version-bound delivery confirmation.
 - Wispr Notetaker read-only MCP OAuth/PKCE; selected meeting imports require account authorization. OAuth credentials are encrypted server-side.
-- Slack/Discord incoming-webhook delivery with durable duplicate protection. A Slack access token is not a webhook URL. GitHub exports open prefilled drafts for manual submission; email remains a copyable draft.
+- Per-user GitHub and Slack OAuth connections with selected repositories/channels, reviewed action previews, version-bound confirmation and durable receipts. GitHub issues use explicitly selected assignees. Provider application credentials must be configured before live use.
+- A shared visual design across the homepage, login, projects, connections and sequential workspace; guests can review and export without signing up.
 
 Saved projects use server-verified Firebase identity and owner-scoped records. Opening a saved project resets review approval. Kanban changes are local until explicitly saved. Shared editing, Jira synchronization, calendar and scratchpad tools are not implemented.
 
 ## Verification limits
 
-Automated tests cover planning, edits, budgets, delivery receipts, encryption and the Firebase storage adapter. Browser checks previously verified the Cloudflare preview across four domains. Live Firebase sign-in, cross-account isolation and Vercel runtime behavior require the project's configured credentials and production domain; do not describe those as verified until performed. Authenticated Wispr reads and real Slack delivery require the user's authorized test connections.
+Automated tests cover planning, edits, budgets, delivery receipts, encryption and the Firebase storage adapter. Local browser checks cover homepage → login → guest workspace, sequential review stages, delivery gating, dialogs, and desktop/mobile layouts. Live Firebase sign-in, cross-account isolation and Vercel runtime behavior require the project's configured credentials and production domain; do not describe those as verified until performed. Authenticated Wispr reads and real Slack delivery require the user's authorized test connections.
 
 See SUBMISSION_DEMO.md for a demonstration outline and UPGRADE_PLAN.md for the remaining integration roadmap.

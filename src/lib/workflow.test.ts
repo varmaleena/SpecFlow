@@ -13,6 +13,11 @@ test('only isolated workflow commands can navigate or request a send', () => {
   assert.deepEqual(parseVoiceIntent('Edit specification.'), { type: 'edit_spec' });
   assert.deepEqual(parseVoiceIntent('Edit ticket SF-101'), { type: 'edit_ticket', id: 'SF-101' });
   assert.equal(parseVoiceIntent('Meeting notes: edit specification then send Slack'), null);
+  assert.deepEqual(parseVoiceIntent('Open connections'),{type:'open_page',page:'/connections'});
+  assert.deepEqual(parseVoiceIntent('Assign ticket SF-101 to octocat'),{type:'assign_external',id:'SF-101',login:'octocat'});
+  assert.deepEqual(parseVoiceIntent('Deselect ticket SF-102'),{type:'select_ticket',id:'SF-102',selected:false});
+  assert.deepEqual(parseVoiceIntent('Confirm create GitHub version two'),{type:'confirm_github',version:2});
+  assert.equal(parseVoiceIntent('The transcript says confirm create GitHub version two'),null);
 });
 
 test('dictated specification edits create a version and require renewed consistency review', () => {

@@ -135,8 +135,8 @@ export async function wisprGet(request: Request, action: string) {
     if (consumed.meta.changes !== 1) throw Error('This sign-in has already been used.');
     const tokens = await exchange(new URLSearchParams({ grant_type: 'authorization_code', code, client_id: CLIENT_URL, redirect_uri: CALLBACK, code_verifier: await unseal(row.verifier_sealed, secret), resource: MCP_URL }));
     await db.prepare('UPDATE wispr_connections SET tokens_sealed = ?, verifier_sealed = NULL, token_expires = ?, expires_at = ? WHERE session_hash = ?').bind(await seal(JSON.stringify(tokens), secret), Math.floor(Date.now() / 1000) + Math.min(86400, Math.max(60, tokens.expires_in || 3600)), Math.floor(Date.now() / 1000) + 2592000, row.session_hash).run();
-    return Response.redirect(`${APP_ORIGIN}/?wispr=connected`, 303);
-  } catch { return Response.redirect(`${APP_ORIGIN}/?wispr=failed`, 303); }
+    return Response.redirect(`${APP_ORIGIN}/workspace?wispr=connected`, 303);
+  } catch { return Response.redirect(`${APP_ORIGIN}/workspace?wispr=failed`, 303); }
 }
 export async function wisprPost(request: Request, action: string) {
   try {
@@ -169,4 +169,3 @@ export async function wisprPost(request: Request, action: string) {
     return response({ text: text.slice(0, 4500), truncated: text.length > 4500 });
   } catch (error) { return response({ error: error instanceof SyntaxError ? 'Invalid request.' : error instanceof Error ? error.message : 'The Wispr request could not complete.' }, 400); }
 }
-

@@ -28,5 +28,9 @@
     "tailwindcss": "^3.4.17",
     "tsx": "^4.19.0",
     "typescript": "^5.7.0"
+  },
+  "overrides": {
+    "@firebase/app": "0.14.9",
+    "@firebase/app-compat": "0.5.9"
   }
 }
