@@ -7,10 +7,10 @@ test('custom briefs preserve integrations without inventing owners',()=>{const s
 
 test('equipment rules preserve threshold, dependency and scoped owners',()=>{
  const s=localEngine('Build an employee equipment request portal. Employees request laptops or monitors. Managers must approve requests above 40,000 rupees. IT checks inventory before buying equipment. Use Postgres and Slack notifications. Priya owns the request form, Ananya owns approvals, and Meera owns inventory. Prevent duplicate active requests and keep an audit trail.');
- assert.match(s.architecture.mermaidCode,/\{"above 40,000 rupees\?"\}/);
+ assert.match(s.architecture.mermaidCode,/\{"above ₹40,000\?"\}/);
  assert.match(s.architecture.mermaidCode,/\|Yes\|/);
  assert.match(s.architecture.mermaidCode,/--\>\|before\|/);
- assert.equal(s.sprint.tickets.find(t=>/Managers/.test(t.title))?.assignee,'Ananya');
+ assert.equal(s.sprint.tickets.find(t=>/Managers/.test(t.description))?.assignee,'Ananya');
  assert.equal(s.sprint.tickets.find(t=>/inventory/.test(t.title))?.assignee,'Meera');
  assert.equal(s.sprint.tickets.find(t=>t.title==='request form')?.assignee,'Priya');
  assert.ok(s.sprint.tickets.every(t=>t.assignee!=='Karthik'));

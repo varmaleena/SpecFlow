@@ -17,7 +17,7 @@ The old Sites/Cloudflare preview remains in a separate ignored hosted/ checkout 
 ## Features
 
 - Guest/browser-local planning plus optional Google sign-in, explicit account saves and a My projects view when Firebase is configured.
-- Domain-independent local requirements maps with source conditions and explicit dependencies. Complex or unspecified outcomes remain review questions. The exact bundled invoice demo retains its sample preset; arbitrary invoice briefs do not inherit that preset's rules.
+- Local component architecture with technical-name-safe sentence parsing, scoped owner tickets, security tasks, exact source conditions and explicit boundary review. Non-complementary rules retain unresolved cases instead of inventing a business outcome. The exact bundled invoice demo retains its sample preset; arbitrary invoice briefs do not inherit that preset's rules.
 - Optional Gemini 3.1 Flash-Lite or Groq generation, validated structured output, shared quota limits and visible fallback. Supported local edits use zero AI calls; unsupported edits preserve the existing plan during provider failures.
 - Versioned edits, source evidence, change receipts, review gates and explicit version-bound delivery confirmation.
 - Wispr Notetaker read-only MCP OAuth/PKCE; selected meeting imports require account authorization. OAuth credentials are encrypted server-side.

@@ -1,9 +1,10 @@
+import { splitIntoSentences } from './brief-text';
 import { SpecFlowState, SprintTicket } from '@/types/specflow';
 const ignored = new Set(['the','and','for','with','from','into','that','this','using','build','create','implement','service','system','workflow','request','requests','should','must','user','users','have','will','then','your','their']);
 function terms(text: string) { return new Set((text.toLowerCase().match(/[a-z0-9]{3,}/g) || []).filter(word => !ignored.has(word))); }
 export function ticketEvidence(ticket: SprintTicket, source: string): string | null {
   const keywords = terms(ticket.title);
-  const sentences = source.split(/(?<=[.!?])\s+|\n+/).map(line => line.trim()).filter(Boolean);
+  const sentences = splitIntoSentences(source, true);
   let best = '', score = 0;
   for (const sentence of sentences) { const words = terms(sentence); const matched = [...keywords].filter(word => words.has(word)).length; if (matched > score) { best = sentence; score = matched; } }
   return score >= 2 ? best : null;
